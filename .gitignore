@@ -16,3 +16,9 @@ images/
 *.sh
 
 .idea/
+
+config.json
+
+.project
+
+scratch.py

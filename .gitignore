@@ -22,3 +22,5 @@ config.json
 .project
 
 scratch.py
+
+venv/

@@ -1,6 +1,6 @@
 picamera~=1.13
 numpy~=1.18.4
-opencv-python~=4.1.1.26
+opencv-python>=4
 ffmpy~=0.2.3
 click~=7.1.2
 boto3~=1.13.16

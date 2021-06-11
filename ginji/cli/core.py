@@ -4,6 +4,8 @@ from ginji.config import config, logger
 from ginji.inputs import MotionInput
 from ginji.outputs import VideoOutput
 from ginji.connectors import uploaders, notifiers
+import os
+from datetime import datetime as dt
 
 
 click_context = {
@@ -55,3 +57,28 @@ def motion(ctx, tidy, interval):
             motion_input.save_bg()
             motion_input.stop()
             break
+
+
+@cli.command(short_help='Manually initiate a tidy-up of the output folder.')
+@click.option('--motioneye', is_flag=True, default=False)
+@click.pass_context
+def sweep(ctx, motioneye):
+    video_output = VideoOutput()
+    video_output.register_connectors(*ctx.obj.get('connectors', []))
+
+    # move everything into the right place
+    if motioneye:
+        for root, _, files in os.walk(config.root):
+            for f in files:
+                if not f.endswith(video_output.filetype):
+                    continue
+                video_date = root.split('/')[-1]
+                video_time = f.split(os.extsep)[0]
+                try:
+                    video_datetime = dt.strptime(f'{video_date} {video_time}', '%Y-%m-%d %H-%M-%S').timestamp()
+                except:
+                    continue
+                new_fn = video_output.make_filename(video_datetime, 2)
+                os.rename(os.path.join(root, f), new_fn)
+
+    video_output.tidy()

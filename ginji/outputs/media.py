@@ -35,11 +35,14 @@ class MediaOutput(BaseOutput):
         if not self.filename_set:
             self.direction = value
 
+    def make_filename(self, time_object, direction):
+        t = str(time_object).replace('.', '_')
+        return os.path.join(self.file_root,
+                            f'{config.file_prefix}_{t}-{direction}.' + self.filetype)
+
     def auto_filename(self):
         self.time_taken = time.time()
-        t = str(self.time_taken).replace('.', '_')
-        self.path = os.path.join(self.file_root,
-                                 f'{config.file_prefix}_{t}-{self.direction}.' + self.filetype)
+        self.path = self.make_filename(self.time_taken, self.direction)
         self.filename_set = True
 
     def rename(self):

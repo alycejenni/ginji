@@ -7,7 +7,7 @@ NAME = 'ginji'
 DESCRIPTION = 'Raspberry Pi inputs and outputs. Mostly centred around motion detection and video capture.'
 URL = 'https://github.com/alycejenni/catflap'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 with open('requirements.txt', 'r') as req_file:
     REQUIRED = [r.strip() for r in req_file.readlines()]
